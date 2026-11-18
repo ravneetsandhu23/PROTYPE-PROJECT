@@ -1,0 +1,640 @@
+* =====================================================
+   ParkPal – Smart Parking Management System
+   INT335 – Product Design and Prototyping
+   Colours: navy blue, white, light blue and green
+   ===================================================== */
+
+/* ---------- 1. Colour variables and basic reset ---------- */
+:root {
+    --navy: #0b2545;
+    --navy-light: #13315c;
+    --light-blue: #e8f4fd;
+    --mid-blue: #8ecae6;
+    --white: #ffffff;
+    --green: #2ecc71;
+    --green-dark: #1e9e55;
+    --red: #e74c3c;
+    --red-dark: #c0392b;
+    --selected-blue: #2f80ed;
+    --text-dark: #1d2b3a;
+    --text-grey: #5b6b7c;
+    --border: #d5e3f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: var(--light-blue);
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ---------- 2. Navigation bar ---------- */
+.navbar {
+    background-color: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-inner {
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    background-color: var(--green);
+    color: var(--navy);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.logo-text {
+    color: var(--white);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.logo-highlight {
+    color: var(--green);
+}
+
+.nav-links {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--mid-blue);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--white);
+}
+
+/* ---------- 3. Hero section ---------- */
+.hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: var(--white);
+    text-align: center;
+    padding: 55px 20px 75px;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: var(--mid-blue);
+    font-size: 17px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ---------- 4. Page sections ---------- */
+.section {
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.section-title {
+    color: var(--navy);
+    font-size: 26px;
+    margin-bottom: 18px;
+    padding-left: 12px;
+    border-left: 5px solid var(--green);
+}
+
+.card {
+    background-color: var(--white);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 4px 14px rgba(11, 37, 69, 0.1);
+}
+
+/* ---------- 5. Dashboard statistic cards ---------- */
+#dashboard {
+    margin-top: -40px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.stat-card {
+    background-color: var(--white);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(11, 37, 69, 0.12);
+    border-top: 5px solid var(--navy);
+}
+
+.stat-vacant  { border-top-color: var(--green); }
+.stat-occupied { border-top-color: var(--red); }
+.stat-percent { border-top-color: var(--selected-blue); }
+
+.stat-label {
+    color: var(--text-grey);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stat-number {
+    color: var(--navy);
+    font-size: 38px;
+    font-weight: 800;
+}
+
+.progress-wrapper {
+    margin-top: 18px;
+}
+
+.progress-bar {
+    background-color: #f5c6c1;
+    height: 14px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background-color: var(--green);
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.progress-text {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--text-grey);
+}
+
+/* ---------- 6. Message box ---------- */
+.message-box {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.message-success {
+    background-color: #d8f5e4;
+    color: var(--green-dark);
+    border-left: 5px solid var(--green);
+}
+
+.message-error {
+    background-color: #fbdcd8;
+    color: var(--red-dark);
+    border-left: 5px solid var(--red);
+}
+
+/* ---------- 7. Parking layout ---------- */
+.parking-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filter-group label,
+.form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+}
+
+select,
+.text-input {
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: var(--white);
+    color: var(--text-dark);
+}
+
+select:focus,
+.text-input:focus {
+    outline: 2px solid var(--mid-blue);
+}
+
+.filter-info {
+    font-size: 13px;
+    color: var(--text-grey);
+    margin: 10px 0 14px;
+}
+
+/* Zone headings and grid share the same column layout */
+.zone-heading-row,
+.parking-row {
+    display: grid;
+    grid-template-columns: 40px repeat(5, 1fr);
+    gap: 10px;
+}
+
+.zone-heading-row {
+    grid-template-columns: 40px 2fr 3fr;
+    margin-bottom: 8px;
+}
+
+.zone-heading {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px;
+    border-radius: 8px;
+    color: var(--navy);
+}
+
+.zone-two  { background-color: var(--mid-blue); }
+.zone-four { background-color: #cfeede; }
+
+.parking-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f3f8fc;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px dashed var(--border);
+}
+
+.row-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--navy);
+}
+
+/* A single parking slot */
+.slot {
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 8px 4px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--white);
+    min-height: 82px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+}
+
+.slot:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.slot-id     { font-size: 17px; font-weight: 800; }
+.slot-icon   { font-size: 18px; }
+.slot-status { font-size: 11px; font-weight: 600; text-transform: uppercase; }
+.slot-number { font-size: 11px; font-weight: 700; word-break: break-all; }
+
+.slot-vacant   { background-color: var(--green); }
+.slot-occupied { background-color: var(--red); }
+.slot-selected {
+    background-color: var(--selected-blue);
+    box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.35);
+}
+
+/* Occupied slot that the user has clicked (to release it) */
+.slot-occupied.slot-picked {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(11, 37, 69, 0.35);
+}
+
+/* Slots that do not match the filter */
+.slot-dimmed {
+    opacity: 0.2;
+}
+
+/* Legend */
+.legend {
+    display: flex;
+    gap: 22px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.legend-box {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.box-vacant   { background-color: var(--green); }
+.box-occupied { background-color: var(--red); }
+.box-selected { background-color: var(--selected-blue); }
+
+/* ---------- 8. Booking panel ---------- */
+.booking-card h3 {
+    color: var(--navy);
+    margin-bottom: 14px;
+}
+
+.selected-box {
+    background-color: var(--light-blue);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 16px;
+}
+
+.selected-title {
+    font-size: 12px;
+    color: var(--text-grey);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.selected-slot {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--navy);
+}
+
+.selected-details {
+    font-size: 13px;
+    color: var(--text-grey);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.radio-option:hover {
+    background-color: var(--light-blue);
+}
+
+.text-input {
+    width: 100%;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+}
+
+/* ---------- 9. Buttons ---------- */
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-full {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-green { background-color: var(--green); color: var(--navy); }
+.btn-green:hover { background-color: var(--green-dark); color: var(--white); }
+
+.btn-red { background-color: var(--red); color: var(--white); }
+.btn-red:hover { background-color: var(--red-dark); }
+
+.btn-light { background-color: var(--light-blue); color: var(--navy); }
+.btn-light:hover { background-color: var(--mid-blue); }
+
+.btn-outline {
+    background-color: var(--white);
+    color: var(--navy);
+    border: 2px solid var(--navy);
+}
+.btn-outline:hover { background-color: var(--navy); color: var(--white); }
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+/* ---------- 10. Vehicle table ---------- */
+.table-card {
+    overflow-x: auto;
+}
+
+.vehicle-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.vehicle-table th {
+    background-color: var(--navy);
+    color: var(--white);
+    padding: 12px;
+    text-align: left;
+}
+
+.vehicle-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.vehicle-table tr:hover td {
+    background-color: var(--light-blue);
+}
+
+.empty-text {
+    text-align: center;
+    color: var(--text-grey);
+    padding: 20px;
+}
+
+/* ---------- 11. How it works ---------- */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.step-card {
+    background-color: var(--white);
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(11, 37, 69, 0.08);
+}
+
+.step-number {
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    background-color: var(--green);
+    color: var(--navy);
+    font-weight: 800;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.step-card h3 {
+    color: var(--navy);
+    margin-bottom: 6px;
+}
+
+.step-card p {
+    font-size: 14px;
+    color: var(--text-grey);
+}
+
+/* ---------- 12. Footer ---------- */
+.footer {
+    background-color: var(--navy);
+    color: var(--mid-blue);
+    text-align: center;
+    padding: 24px 20px;
+    margin-top: 30px;
+    font-size: 14px;
+}
+
+/* ---------- 13. Responsive design ---------- */
+@media (max-width: 900px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .parking-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    .nav-links {
+        gap: 14px;
+    }
+
+    .parking-grid {
+        padding: 8px;
+    }
+
+    .zone-heading-row,
+    .parking-row {
+        grid-template-columns: 26px repeat(5, 1fr);
+        gap: 5px;
+    }
+
+    .zone-heading-row {
+        grid-template-columns: 26px 2fr 3fr;
+    }
+
+    .zone-heading {
+        font-size: 10px;
+        padding: 4px 2px;
+    }
+
+    .slot {
+        min-height: 70px;
+        padding: 4px 2px;
+    }
+
+    .slot-id {
+        font-size: 14px;
+    }
+
+    .slot-number {
+        font-size: 9px;
+    }
+}
